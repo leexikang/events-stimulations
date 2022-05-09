@@ -1,4 +1,10 @@
-export class PQ<T> {
+type Primitive = string | number | boolean
+
+interface Comparable<T> {
+  compareTo(that: T): number;
+}
+
+export class PQ<T extends Comparable<T> | Primitive > {
   private nodes: Array<T | null>;
   private nxt: number;
 
@@ -7,10 +13,13 @@ export class PQ<T> {
     this.nxt = 0;
   }
 
+  size(): number {
+    return this.nxt
+  }
+
   enqueue(node: T) {
     this.nodes[this.nxt] = node;
     this.swim(this.nxt);
-    console.log(this.nodes);
     this.nxt++;
   }
 
@@ -24,21 +33,25 @@ export class PQ<T> {
   }
 
   private swim(index: number) {
+    let i = index;
+
     while (true) {
-      if (index > 0 && this.less(index / 2, index)) {
-        this.exchange(index / 2, index);
-        index = index / 2;
-        return;
+      let parent = Math.floor(i / 2);
+      if (i > 0 && this.less(parent, i)) {
+        this.exchange(parent , i);
+        i = parent;
+        continue;
       } else {
         break;
       }
     }
   }
 
-  private sink(i: number) {
+  private sink(index: number) {
+    let i = index;
     while (true) {
       let k = i * 2;
-      if (this.less(k, k + 1)) k = k + 1;
+      if (k + 1 > 0  && this.less(k, k + 1)) k = k + 1;
       if (k < this.nxt && this.less(i, k)) {
         this.exchange(i, k);
         i = k;
@@ -49,9 +62,18 @@ export class PQ<T> {
   }
 
   private less(i: number, k: number): boolean {
-    if (i < k) {
+    if (this.nodes[k] == null) return false;
+    if (this.nodes[i] == null) return true;
+
+    if((<Comparable<T>>this.nodes[i]!).compareTo){
+      const compare = (<Comparable<T>>this.nodes[i]!).compareTo(this.nodes[k]!);
+      return compare == -1;
+    }
+
+    if (this.nodes[i]! < this.nodes[k]!) {
       return true;
     }
+
     return false;
   }
 
