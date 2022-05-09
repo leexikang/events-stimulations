@@ -10,6 +10,7 @@ export class PQ<T> {
   enqueue(node: T) {
     this.nodes[this.nxt] = node;
     this.swim(this.nxt);
+    console.log(this.nodes);
     this.nxt++;
   }
 
@@ -48,7 +49,10 @@ export class PQ<T> {
   }
 
   private less(i: number, k: number): boolean {
-    return true;
+    if (i < k) {
+      return true;
+    }
+    return false;
   }
 
   private exchange(i: number, k: number) {
