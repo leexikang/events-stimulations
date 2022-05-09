@@ -1,4 +1,5 @@
 import { Ball } from "./ball";
+import {dt} from "./constant";
 import { randomBall } from "./generator";
 import "./style.css";
 
@@ -27,7 +28,6 @@ if (canvas != null && canvas.getContext) {
         balls[i].move();
         balls[i].draw();
       }
-    }, 30);
+    }, dt);
   }
-} else {
 }

@@ -41,9 +41,8 @@ export class PQ<T extends Comparable<T> | Primitive > {
         this.exchange(parent , i);
         i = parent;
         continue;
-      } else {
-        break;
       }
+      break;
     }
   }
 
@@ -55,9 +54,9 @@ export class PQ<T extends Comparable<T> | Primitive > {
       if (k < this.nxt && this.less(i, k)) {
         this.exchange(i, k);
         i = k;
-      } else {
-        break;
+        continue
       }
+      break;
     }
   }
 

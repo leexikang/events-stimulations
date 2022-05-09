@@ -6,6 +6,7 @@ export class Ball {
   vx: number;
   vy: number;
   r: number;
+  dt: number;
   ctx: CanvasRenderingContext2D;
 
   constructor(
@@ -14,6 +15,7 @@ export class Ball {
     vx: number,
     vy: number,
     r: number,
+    dt: number,
     ctx: CanvasRenderingContext2D
   ) {
     this.x = x;
@@ -21,6 +23,7 @@ export class Ball {
     this.vx = vx;
     this.vy = vy;
     this.r = r;
+    this.dt = dt;
     this.ctx = ctx;
   }
 
@@ -39,5 +42,21 @@ export class Ball {
     if (nexty > canvasHeight - this.r || nexty < this.r) this.vy = -this.vy;
     this.x += this.vx;
     this.y += this.vy;
+  }
+
+  timeToHit(that: Ball): number {
+    if (this == that) return Infinity;
+    const dx  = that.x - this.x;
+    const dy = that.y - this.y;
+    const dvx = that.vx - this.vx;
+    const dvy = that.vy - this.vy;
+    const dvdr = dx * dvx + dy * dvy;
+    if(dvdr > 0) return Infinity;
+    const dvdv = dvx * dvx + dvy * dvy;
+    const drdr = dx*dx + dy*dy
+    const sigma = this.r + that.r;
+    const d = (dvdr*dvdr) - dvdv * (drdr - sigma * sigma);
+    if(d < 0 ) return Infinity;
+    return -(dvdr + Math.sqrt(d)) / dvdv;
   }
 }
