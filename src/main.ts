@@ -1,5 +1,5 @@
 import { Ball } from "./ball";
-import {dt} from "./constant";
+import { dt } from "./constant";
 import { randomBall } from "./generator";
 import "./style.css";
 
@@ -21,6 +21,11 @@ if (canvas != null && canvas.getContext) {
       balls[i] = randomBall(ctx);
       balls[i].draw();
     }
+    for (let i = 1; i < totalBalls; i++) {
+      for (let j = 0; j < totalBalls; j++) {
+        console.log(balls[i].timeToHit(balls[j]));
+      }
+    }
 
     setInterval(() => {
       ctx!.clearRect(0, 0, canvas.width, canvas.height);
@@ -31,3 +36,21 @@ if (canvas != null && canvas.getContext) {
     }, dt);
   }
 }
+
+//if (canvas != null && canvas.getContext) {
+//var ctx = canvas.getContext("2d");
+//if (ctx != null) {
+//const current = new Ball(0, 300, 5, 5, 5, 5, ctx);
+//const that = new Ball(300, 0, -5, -5, 5, 5, ctx);
+//current.draw();
+//that.draw();
+
+//setInterval(() => {
+//ctx!.clearRect(0, 0, canvas.width, canvas.height);
+//current.move();
+//current.draw();
+//that.move();
+//that.draw();
+//}, dt);
+//}
+//}
