@@ -1,4 +1,4 @@
-import { canvasHeight, canvasWidth } from "./constant";
+import {canvasHeight, canvasWidth} from "./constant";
 
 export class Ball {
   x: number;
@@ -6,7 +6,6 @@ export class Ball {
   vx: number;
   vy: number;
   r: number;
-  dt: number;
   count: number;
   ctx: CanvasRenderingContext2D;
 
@@ -16,7 +15,6 @@ export class Ball {
     vx: number,
     vy: number,
     r: number,
-    dt: number,
     ctx: CanvasRenderingContext2D
   ) {
     this.x = x;
@@ -24,7 +22,6 @@ export class Ball {
     this.vx = vx;
     this.vy = vy;
     this.r = r;
-    this.dt = dt;
     this.ctx = ctx;
     this.count = 0;
   }
@@ -37,23 +34,25 @@ export class Ball {
     this.ctx.closePath();
   }
 
-  move() {
-    let nextx = this.x + this.vx;
-    let nexty = this.y + this.vy;
-    if (nextx > canvasWidth - this.r || nextx < this.r) this.vx = -this.vx;
-    if (nexty > canvasHeight - this.r || nexty < this.r) this.vy = -this.vy;
-    this.x += this.vx;
-    this.y += this.vy;
+  move(dt: number) {
+    //let nextx = this.x + this.vx * dt;
+    //let nexty = this.y + this.vy * dt;
+    //if (nextx > canvasWidth - this.r || nextx < this.r) this.vx = -this.vx;
+    //if (nexty > canvasHeight - this.r || nexty < this.r) this.vy = -this.vy;
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
   }
 
   timeToHitHorizontalTheWall(): number {
-    if (this.vx >= 0) return (canvasWidth - this.r - this.x) / this.vx;
-    return (this.r + this.x) / this.vx;
+    if (this.vx > 0) return (canvasWidth - this.r - this.x) / this.vx;
+    else if (this.vx < 0) return (this.x - this.r) / -this.vx;
+    return Infinity;
   }
 
   timeToHitVerticalWall(): number {
-    if (this.vy >= 0) return (canvasHeight - this.r - this.y) / this.vy;
-    return (this.y - this.r) / this.vy;
+    if (this.vy > 0) return (canvasHeight - this.r - this.y) / this.vy;
+    else if (this.vy < 0) return (this.y - this.r) / -this.vy;
+    return Infinity;
   }
 
   timeToHit(that: Ball): number {
@@ -70,6 +69,16 @@ export class Ball {
     const d = dvdr * dvdr - dvdv * (drdr - sigma * sigma);
     if (d < 0) return Infinity;
     return -(dvdr + Math.sqrt(d)) / dvdv;
+  }
+
+  bounceOffHorizontalWall() {
+    this.vx = -this.vx;
+    this.count++;
+  }
+
+  bounceOffVerticalWall() {
+    this.vy = -this.vy;
+    this.count++;
   }
 
   bounceOff(that: Ball) {

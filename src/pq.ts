@@ -4,7 +4,7 @@ interface Comparable<T> {
   compareTo(that: T): number;
 }
 
-export class PQ<T extends Comparable<T> | Primitive > {
+export class PQ<T extends Comparable<T> | Primitive> {
   private nodes: Array<T | null>;
   private nxt: number;
 
@@ -15,6 +15,10 @@ export class PQ<T extends Comparable<T> | Primitive > {
 
   size(): number {
     return this.nxt
+  }
+
+  isEmpty(): boolean {
+    return this.nxt == 0;
   }
 
   enqueue(node: T) {
@@ -38,7 +42,7 @@ export class PQ<T extends Comparable<T> | Primitive > {
     while (true) {
       let parent = Math.floor(i / 2);
       if (i > 0 && this.less(parent, i)) {
-        this.exchange(parent , i);
+        this.exchange(parent, i);
         i = parent;
         continue;
       }
@@ -50,7 +54,7 @@ export class PQ<T extends Comparable<T> | Primitive > {
     let i = index;
     while (true) {
       let k = i * 2;
-      if (k + 1 > 0  && this.less(k, k + 1)) k = k + 1;
+      if (k + 1 > 0 && this.less(k, k + 1)) k = k + 1;
       if (k < this.nxt && this.less(i, k)) {
         this.exchange(i, k);
         i = k;
@@ -64,9 +68,9 @@ export class PQ<T extends Comparable<T> | Primitive > {
     if (this.nodes[k] == null) return false;
     if (this.nodes[i] == null) return true;
 
-    if((<Comparable<T>>this.nodes[i]!).compareTo){
+    if ((<Comparable<T>>this.nodes[i]!).compareTo) {
       const compare = (<Comparable<T>>this.nodes[i]!).compareTo(this.nodes[k]!);
-      return compare == -1;
+      return compare < 0;
     }
 
     if (this.nodes[i]! < this.nodes[k]!) {
