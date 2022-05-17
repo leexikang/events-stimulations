@@ -27,7 +27,7 @@ if (canvas != null && canvas.getContext) {
       limit: 10000,
     })
 
-    await collison_system.stimulate();
+    collison_system.stimulate();
   }
 }
 
