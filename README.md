@@ -7,6 +7,7 @@ This is the typescript implementation of collison system from the course [Algori
 Full Java code can be found [here](https://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/CollisionSystem.java.html)
 
 How to run it
+
 ```
 #For npm
 npm install
@@ -16,3 +17,5 @@ npm run dev
 yarn install
 yarn run dev
 ```
+
+See [Demo](https://leexikang.github.io/events-stimulations/)
