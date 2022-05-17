@@ -28,6 +28,7 @@ export class PQ<T extends Comparable<T> | Primitive> {
   }
 
   dequeue(): T | null {
+    if (this.isEmpty()) return null;
     let tmp = this.nodes[0];
     this.nodes[0] = this.nodes[this.nxt - 1];
     this.nodes[this.nxt - 1] = null;

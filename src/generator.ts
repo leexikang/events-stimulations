@@ -1,5 +1,5 @@
 import {Ball} from "./ball";
-import {canvasHeight, canvasWidth, dt} from "./constant";
+import {canvasHeight, canvasWidth} from "./constant";
 
 function randomBall(ctx: CanvasRenderingContext2D): Ball {
   const radius = 5;
@@ -7,7 +7,7 @@ function randomBall(ctx: CanvasRenderingContext2D): Ball {
   const vy = Math.random() * 3 + 1;
   const x = randomAxis(canvasWidth, radius);
   const y = randomAxis(canvasHeight, radius);
-  return new Ball(x, y, vx, vy, 5, ctx);
+  return new Ball(x, y, vx, vy, 5, canvasWidth, canvasHeight, ctx);
 }
 
 function randomAxis(maximum: number, radius: number): number {

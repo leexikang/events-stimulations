@@ -1,5 +1,4 @@
 import {Ball} from "./ball";
-import {canvasWidth, canvasHeight} from "./constant";
 
 export class Event {
   time: number;
@@ -28,12 +27,5 @@ export class Event {
     if (this.a != null && this.a.count != this.countA) return false;
     if (this.b != null && this.b.count != this.countB) return false;
     return true;
-  }
-
-  private withinBoundary(ball: Ball): boolean {
-    return ball.x >= ball.r &&
-      ball.y >= ball.r &&
-      ball.x <= canvasWidth - ball.r &&
-      ball.y <= canvasHeight - ball.r;
   }
 }

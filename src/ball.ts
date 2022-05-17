@@ -1,4 +1,3 @@
-import {canvasHeight, canvasWidth} from "./constant";
 
 export class Ball {
   x: number;
@@ -8,6 +7,8 @@ export class Ball {
   r: number;
   count: number;
   ctx: CanvasRenderingContext2D;
+  maxWidth: number;
+  maxHeight: number;
 
   constructor(
     x: number,
@@ -15,7 +16,9 @@ export class Ball {
     vx: number,
     vy: number,
     r: number,
-    ctx: CanvasRenderingContext2D
+    maxWidth: number,
+    maxHeight: number,
+    ctx: CanvasRenderingContext2D,
   ) {
     this.x = x;
     this.y = y;
@@ -24,6 +27,8 @@ export class Ball {
     this.r = r;
     this.ctx = ctx;
     this.count = 0;
+    this.maxWidth = maxWidth;
+    this.maxHeight = maxHeight;
   }
 
   draw() {
@@ -35,22 +40,18 @@ export class Ball {
   }
 
   move(dt: number) {
-    //let nextx = this.x + this.vx * dt;
-    //let nexty = this.y + this.vy * dt;
-    //if (nextx > canvasWidth - this.r || nextx < this.r) this.vx = -this.vx;
-    //if (nexty > canvasHeight - this.r || nexty < this.r) this.vy = -this.vy;
     this.x += this.vx * dt;
     this.y += this.vy * dt;
   }
 
   timeToHitHorizontalTheWall(): number {
-    if (this.vx > 0) return (canvasWidth - this.r - this.x) / this.vx;
+    if (this.vx > 0) return (this.maxWidth - this.r - this.x) / this.vx;
     else if (this.vx < 0) return (this.x - this.r) / -this.vx;
     return Infinity;
   }
 
   timeToHitVerticalWall(): number {
-    if (this.vy > 0) return (canvasHeight - this.r - this.y) / this.vy;
+    if (this.vy > 0) return (this.maxHeight - this.r - this.y) / this.vy;
     else if (this.vy < 0) return (this.y - this.r) / -this.vy;
     return Infinity;
   }
